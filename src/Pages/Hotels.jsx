@@ -4,10 +4,10 @@ import HotelCards from "../Components/HotelCards/HotelCards";
 
 const Hotels = () => {
   const [hotelsArr, setHotelsArr] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const Url = "https://booking-com.p.rapidapi.com/v1/static/hotels";
-    // const Url = "https://booking-com.p.rapidapi.com/v1/hotels/locations";
     const apiKey = "b038d947admsh5d40e69154679f1p14c275jsn8bf445dca1c9";
 
     const searchParams = {
@@ -41,7 +41,9 @@ const Hotels = () => {
         params: searchParams,
       })
       .then((response) => {
-        setHotelsArr(response.data);
+        setLoading(true);
+        setHotelsArr(response.data.result);
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
@@ -50,7 +52,7 @@ const Hotels = () => {
 
   return (
     <>
-      <HotelCards hotelsArr={hotelsArr} />
+      <HotelCards loading={loading} hotelsArr={hotelsArr} />
     </>
   );
 };
